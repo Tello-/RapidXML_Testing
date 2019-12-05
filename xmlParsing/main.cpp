@@ -7,6 +7,42 @@
 #include "FileParser.h"
 #include "TextFile.h"
 
+
+std::string nodeTypeToString(rapidxml::node_type _type)
+{
+	std::string returnString{ "" };
+	switch (_type)
+	{
+	case rapidxml::node_document:
+		returnString = "document";
+		break;
+	case rapidxml::node_element:
+		returnString = "element";
+		break;
+	case rapidxml::node_data:
+		returnString = "data";
+		break;
+	case rapidxml::node_cdata:
+		returnString = "cdata";
+		break;
+	case rapidxml::node_comment:
+		returnString = "comment";
+		break;
+	case rapidxml::node_declaration:
+		returnString = "declaration";
+		break;
+	case rapidxml::node_doctype:
+		returnString = "doctype";
+		break;
+	case rapidxml::node_pi:
+		returnString = "pi";
+		break;
+	default:
+		break;
+	}
+	return returnString;
+}
+
 int main()
 {
 	TextFile file;
@@ -21,10 +57,28 @@ int main()
 	
 
 	rapidxml::xml_document<> doc;
-	std::cout << "type of doc is: " << doc.type() << std::endl;
+	std::cout << "type of doc is: " << nodeTypeToString(doc.type()) << std::endl;
 	doc.parse<0>(cS);
 	std::cout << "Name of my first node is: " << doc.first_node()->name() << "\n";
-	std::cout << "Type of first node is: " << doc.first_node()->type() << "\n";
+	std::cout << "Type of first node is: " << nodeTypeToString(doc.first_node()->type()) << "\n";
 
 	return 0;
 }
+
+/*
+node_document
+A document node. Name and value are empty.
+node_element
+An element node. Name contains element name. Value contains text of first data node.
+node_data
+A data node. Name is empty. Value contains data text.
+node_cdata
+A CDATA node. Name is empty. Value contains data text.
+node_comment
+A comment node. Name is empty. Value contains comment text.
+node_declaration
+A declaration node. Name and value are empty. Declaration parameters (version, encoding and standalone) are in node attributes.
+node_doctype
+A DOCTYPE node. Name is empty. Value contains DOCTYPE text.
+node_pi
+A PI node. Name contains target. Value contains instructions.*/
