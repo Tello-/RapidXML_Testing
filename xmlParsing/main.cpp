@@ -59,9 +59,11 @@ int main()
 	rapidxml::xml_document<> doc;
 	std::cout << "type of doc is: " << nodeTypeToString(doc.type()) << std::endl;
 	doc.parse<0>(cS);
-	std::cout << "Name of my first node is: " << doc.first_node()->name() << "\n";
-	std::cout << "Type of first node is: " << nodeTypeToString(doc.first_node()->type()) << "\n";
-
+	std::cout << "\nFirst node of doc is: " << doc.first_node()->name() << "\n";
+	std::cout << "Type of " << doc.first_node()->name() << " is: " << nodeTypeToString(doc.first_node()->type()) << "\n";
+	std::cout << "\nchild of " << doc.first_node()->name() << " is: " << doc.first_node()->first_node()->name() << "\n";
+	std::cout << "Type of " << doc.first_node()->first_node()->name() << " is: " << nodeTypeToString(doc.first_node()->first_node()->type()) << "\n";
+	std::cout << "\n";
 	return 0;
 }
 
