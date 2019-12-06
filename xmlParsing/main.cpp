@@ -1,66 +1,87 @@
 #include <iostream>
 #include <string>
-#include "rapidxml.hpp"
-#include "rapidxml_print.hpp"
-#include "rapidxml_utils.hpp"
-#include "rapidxml_iterators.hpp"
+#include <vector>
+//#include "rapidxml.hpp"
+//#include "rapidxml_print.hpp"
+//#include "rapidxml_utils.hpp"
+//#include "rapidxml_iterators.hpp"
 #include "FileParser.h"
-#include "TextFile.h"
+//#include "TextFile.h"
 
 
-std::string nodeTypeToString(rapidxml::node_type _type)
-{
-	std::string returnString{ "" };
-	switch (_type)
-	{
-	case rapidxml::node_document:
-		returnString = "document";
-		break;
-	case rapidxml::node_element:
-		returnString = "element";
-		break;
-	case rapidxml::node_data:
-		returnString = "data";
-		break;
-	case rapidxml::node_cdata:
-		returnString = "cdata";
-		break;
-	case rapidxml::node_comment:
-		returnString = "comment";
-		break;
-	case rapidxml::node_declaration:
-		returnString = "declaration";
-		break;
-	case rapidxml::node_doctype:
-		returnString = "doctype";
-		break;
-	case rapidxml::node_pi:
-		returnString = "pi";
-		break;
-	default:
-		break;
-	}
-	return returnString;
-}
+//std::string nodeTypeToString(rapidxml::node_type _type)
+//{
+//	std::string returnString{ "" };
+//	switch (_type)
+//	{
+//	case rapidxml::node_document:
+//		returnString = "document";
+//		break;
+//	case rapidxml::node_element:
+//		returnString = "element";
+//		break;
+//	case rapidxml::node_data:
+//		returnString = "data";
+//		break;
+//	case rapidxml::node_cdata:
+//		returnString = "cdata";
+//		break;
+//	case rapidxml::node_comment:
+//		returnString = "comment";
+//		break;
+//	case rapidxml::node_declaration:
+//		returnString = "declaration";
+//		break;
+//	case rapidxml::node_doctype:
+//		returnString = "doctype";
+//		break;
+//	case rapidxml::node_pi:
+//		returnString = "pi";
+//		break;
+//	default:
+//		break;
+//	}
+//	return returnString;
+//}
 
 int main()
 {
-	TextFile file;
-	file.loadFile("xmlconfig.xml");
-	//std::cout << file.contents() << std::endl;
+
 	
-	rapidxml::file<> rxmlFile{ "xmlconfig.xml" }; // well now that i learned about this it makes my code.. useless
-	rapidxml::xml_document<> docFromFile;
-	docFromFile.parse<0>(rxmlFile.data());
-	
-	// this works to iterate through all of the font nodes in the file but I'm not sure why i cant just get the
-	// iterator functionality to work in the rapidxml_iterators.h file
-	for (rapidxml::xml_node<> *nd = docFromFile.first_node()->first_node(); nd; nd = nd->next_sibling())
+	using configFile = Config::ParsedFile;
+
+	std::vector<configFile*> configFileVec;
+	Config::FileParser::Parse(Config::AssetType::Font, "xmlconfig.xml", configFileVec);
+	for (auto it : configFileVec)
 	{
-		std::cout << "Fonts in file: " << nd->first_attribute()->value() << " " << std::endl;
+		std::cout << it->name << '\n' << it->key << '\n' << it->filePath << "\n\n";
 	}
 
 
+
+
+
+
+	
+	//:::::::::::::::::::::::::::::::::::::::::::Test 2:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	//rapidxml::file<> rxmlFile{ "xmlconfig.xml" }; // well now that i learned about this it makes my code.. useless
+	//rapidxml::xml_document<> docFromFile;
+	//docFromFile.parse<0>(rxmlFile.data());
+	//
+	//// this works to iterate through all of the font nodes in the file but I'm not sure why i cant just get the
+	//// iterator functionality to work in the rapidxml_iterators.h file
+	//for (rapidxml::xml_node<> *nd = docFromFile.first_node()->first_node(); nd; nd = nd->next_sibling())
+	//{
+	//	std::cout << "Fonts in file: " << nd->first_attribute()->value() << " " << std::endl;
+	//}
+	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+	//:::::::::::::::::::::::::::::::::::::::::::Test 1:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	/*TextFile file;
+	file.loadFile("xmlconfig.xml");*/
+	//std::cout << file.contents() << std::endl;
 
 	//std::string fileContents{ file.contents() };
 	//char* cS;
@@ -92,7 +113,7 @@ int main()
 	//std::cout << firstFontTitle << std::endl; // Nunito-Sans Bold
 	//std::cout << firstFontKey << std::endl; // default_font
 	//std::cout << firstFontFilePath << std::endl; // the file path of the font .. .. .. 
-
+	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
 	
 
