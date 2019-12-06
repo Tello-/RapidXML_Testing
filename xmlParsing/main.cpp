@@ -49,6 +49,10 @@ int main()
 	file.loadFile("xmlconfig.xml");
 	//std::cout << file.contents() << std::endl;
 	
+	rapidxml::file<> rxmlFile{ "xmlconfig.xml" }; // well now that i learned about this it makes my code.. useless
+	rapidxml::xml_document<> docFromFile;
+	docFromFile.parse<0>(rxmlFile.data());
+
 	std::string fileContents{ file.contents() };
 	char* cS;
 	int size = fileContents.size() + 1;
